@@ -51,6 +51,8 @@ class MainParser {
     return;
   }
 
+  // TODO: To finish method below and create compare method
+
   inputOutputData(line) {
     for (let i in this.basicOperation["Input/Output"]) {
       if (line.includes(this.basicOperation["Input/Output"][i])) {
