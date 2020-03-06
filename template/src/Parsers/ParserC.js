@@ -6,6 +6,8 @@ class ParserC extends MainParser {
     super();
     console.log(this.basicOperation["DataType"]);
 
+    this.JSON_code["Type"] = "C/C++";
+
     this.basicOperation["DataType"].push(
       "int",
       "float",
@@ -18,9 +20,11 @@ class ParserC extends MainParser {
 
     this.basicOperation["InputOutput"].push("printf", "scanf", "cin", "cout");
     this.basicOperation["ConditionalOperation"].push("if", "while");
+    this.basicOperation["DefineSubSystem"] = { start: "{", end: "}" };
   }
   parseToJSON(str) {
     super.parseToJSON(str);
+    console.log(this.JSON_code);
   }
   print(param) {
     super.print();

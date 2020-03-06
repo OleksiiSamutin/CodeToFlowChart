@@ -1,15 +1,24 @@
-#include<stdio.h>
+#include <stdio.h>
 using namespace std;
 
 int a = 10;
 
-int main() {
+int main()
+{
     double c = 1.256;
-    
+
     double b = c + a;
+
+    a = 0;
 
     printf("b = %f\n", b);
 
-    printf("It's Work!");
+    if (a == 0)
+    {
+        printf("It's Work!");
+    }
+
+    a = 5;
+
     return 0;
 }
