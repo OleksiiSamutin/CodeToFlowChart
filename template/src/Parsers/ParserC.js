@@ -19,8 +19,9 @@ class ParserC extends MainParser {
     );
 
     this.basicOperation["InputOutput"].push("printf", "scanf", "cin", "cout");
-    this.basicOperation["ConditionalOperation"].push("if", "while");
+    this.basicOperation["ConditionalOperation"].push("if", "else");
     this.basicOperation["DefineSubSystem"] = { start: "{", end: "}" };
+    this.basicOperation["Loop"].push("for", "while");
   }
   parseToJSON(str) {
     super.parseToJSON(str);

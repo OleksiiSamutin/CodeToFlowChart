@@ -13,9 +13,18 @@ int main()
 
     printf("b = %f\n", b);
 
+    for (int i = 0; i < 10; i++)
+    {
+        printf("Hello world!");
+    }
+
     if (a == 0)
     {
         printf("It's Work!");
+    }
+    else
+    {
+        printf("It's not Working!!!");
     }
 
     a = 5;

@@ -16,7 +16,9 @@ class MainParser {
     this.basicOperation["InputOutput"] = [];
     this.basicOperation["ConditionalOperation"] = [];
     this.basicOperation["DefineSubSystem"] = { start: "", end: "" };
+    this.basicOperation["Loop"] = [];
 
+    this.setINTO_Operation = null;
     this.defineJSON_Structure();
   }
 
@@ -49,13 +51,15 @@ class MainParser {
 
     console.log(this.JSON_code);
     for (let line in strArray) {
-      if (this.defineSubSystem(line - undefinedLine, strArray[line])) {
-      }
+      this.defineSubSystem(line - undefinedLine, strArray[line]);
 
       if (this.inputOutputData(line - undefinedLine, strArray[line])) {
         continue;
       }
       if (this.conditionalOperation(line - undefinedLine, strArray[line])) {
+        continue;
+      }
+      if (this.defineLoops(line - undefinedLine, strArray[line])) {
         continue;
       }
       if (strArray[line].includes("=")) {
@@ -64,7 +68,6 @@ class MainParser {
       }
 
       undefinedLine++;
-      console.log(strArray[line]);
     }
 
     console.log(this.JSON_code["Code"]);
@@ -73,6 +76,11 @@ class MainParser {
       console.log(key);
       console.log(this.JSON_code["Code"]["SubSystem"][key]);
     }
+    console.log();
+
+    console.log(
+      this.JSON_code["Code"]["SubSystem"]["0"]["ConditionalOperation"]
+    );
   }
 
   /**
@@ -152,9 +160,27 @@ class MainParser {
           .join("")
           .replace(/[() ]/g, "");
 
-        this.subSystem["ConditionalOperation"][index] = line;
+        this.subSystem["ConditionalOperation"][index] = {
+          Value: line
+        };
+        this.setINTO_Operation = {
+          Index: index,
+          Operation: "ConditionalOperation"
+        };
 
         console.log(line);
+        return true;
+      }
+    }
+    return false;
+  }
+
+  defineLoops(index, line) {
+    for (let key in this.basicOperation["Loop"]) {
+      if (line.includes(this.basicOperation["Loop"][key])) {
+        console.log("I'm here!");
+        console.log(this.basicOperation["Loop"][key]);
+
         return true;
       }
     }
@@ -172,18 +198,29 @@ class MainParser {
 
       return true;
     } else if (line.includes(this.basicOperation["DefineSubSystem"]["end"])) {
-      if (this.subSystem !== null) {
-        this.JSON_code["Code"]["SubSystem"][this.subSystemIndex--] = this.clone(
+      if (this.subSystem !== null && this.setINTO_Operation === null) {
+        this.JSON_code["Code"]["SubSystem"][this.subSystemIndex] = this.clone(
           this.subSystem
         );
       }
-      if (this.subSystemIndex >= 0) {
+
+      if (this.setINTO_Operation !== null) {
+        this.JSON_code["Code"]["SubSystem"][this.subSystemIndex - 1][
+          this.setINTO_Operation["Operation"]
+        ][this.setINTO_Operation["Index"]]["SubSystem"] = this.clone(
+          this.subSystem
+        );
+        this.setINTO_Operation = null;
+      }
+
+      if (--this.subSystemIndex >= 0) {
         this.subSystem = this.clone(
           this.JSON_code["Code"]["SubSystem"][this.subSystemIndex]
         );
       } else {
         this.subSystem = null;
       }
+
       return true;
     }
     return false;
