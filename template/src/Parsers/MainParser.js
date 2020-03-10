@@ -2,11 +2,10 @@ class MainParser {
   constructor() {
     // Object JSON_code have in himself a simple structure of loaded code
     //    it will be more easer to convert JSON file into PlantUML
-    this.JSON_code = { name: "TestCode" };
+    this.JSON_code = { Name: "TestCode" };
     this.JSON_code["Type"] = "";
 
     // In my opinion all program splitted in a few subSystem
-    this.subSystem = null;
     this.subSystems = {};
     this.subSystemIndex = -1;
 
@@ -24,20 +23,31 @@ class MainParser {
     this.defineJSON_Structure();
   }
 
+  /**
+   *  This is method create basic attributes for Object.
+   *    SubSystem in this case it's main function that start up.
+   * @memberof MainParser
+   */
   defineJSON_Structure() {
     this.JSON_code["Code"] = {};
     this.JSON_code["Code"]["Assign"] = {};
     this.JSON_code["Code"]["SubSystem"] = {};
   }
 
+  /**
+   *  This method fill any subSystem with key that may present in it or not.
+   *    It's make basic structure for each subSystem.
+   *
+   * @memberof MainParser
+   */
   defineSubSystemStructure() {
     this.subSystems[this.subSystemIndex] = {};
     this.subSystems[this.subSystemIndex]["Assign"] = {};
     this.subSystems[this.subSystemIndex]["InputOutput"] = {};
     this.subSystems[this.subSystemIndex]["ConditionalOperation"] = {};
     this.subSystems[this.subSystemIndex]["Set"] = {};
+    this.subSystems[this.subSystemIndex]["Loop"] = {};
   }
-  // TODO: Make compare block -- it's (if, while <--(but I don't know))
 
   /**
    *  This method make magic!! It convert hard structuring Source Code into simple JSON Object
@@ -75,13 +85,13 @@ class MainParser {
     console.log(this.JSON_code["Code"]);
 
     for (let key in this.JSON_code["Code"]["SubSystem"]) {
-      console.log(key);
+      console.log("\n" + key);
       console.log(this.JSON_code["Code"]["SubSystem"][key]);
     }
     console.log();
     console.log();
 
-    console.log(this.subSystems[0]["ConditionalOperation"]["7"]["Subsystem"]);
+    console.log(this.subSystems[0]["ConditionalOperation"]["7"]["SubSystem"]);
   }
 
   /**
@@ -117,6 +127,15 @@ class MainParser {
     return;
   }
 
+  /**
+   *  This method finds in line any sign that is set some value to parameter,
+   *      if it finds something it will "push" it in Object
+   *
+   * @param {*} index
+   * @param {*} line
+   * @returns
+   * @memberof MainParser
+   */
   setData(index, line) {
     line = line.replace(/[; ]/g, "").split("=");
 
@@ -153,6 +172,18 @@ class MainParser {
     return false;
   }
 
+  /**
+   *  Like previous methods above this method finds specific operation or something else.
+   *    In this case it's find any sign that line contain conditional Operations.
+   *    If method finds conditional Operation it will put condition like this {Value: a==5}
+   *    Also this method set into parameter setINTO_Operation -- this is important parameter
+   *    author use it for define any possibility that this operation have subSystem in itself
+   *
+   * @param {*} index   --  Description the same as above, it's use for set individual parameter
+   * @param {*} line    --  This is just string of source code
+   * @returns
+   * @memberof MainParser
+   */
   conditionalOperation(index, line) {
     for (let i in this.basicOperation["ConditionalOperation"]) {
       if (line.includes(this.basicOperation["ConditionalOperation"][i])) {
@@ -176,6 +207,14 @@ class MainParser {
     return false;
   }
 
+  /**
+   *   I don't finish it sooo, it's coming soon!!
+   *
+   * @param {*} index
+   * @param {*} line
+   * @returns
+   * @memberof MainParser
+   */
   defineLoops(index, line) {
     for (let key in this.basicOperation["Loop"]) {
       if (line.includes(this.basicOperation["Loop"][key])) {
@@ -188,51 +227,19 @@ class MainParser {
     return false;
   }
 
-  // defineSubSystem(index, line) {
-  // if (line.includes(this.basicOperation["DefineSubSystem"]["start"])) {
-  // if (this.subSystem !== null) {
-  // this.JSON_code["Code"]["SubSystem"][this.subSystemIndex++] = this.clone(
-  // this.subSystem
-  // );
-  // }
-  // this.defineSubSystemStructure();
-  //
-  // return true;
-  // } else if (line.includes(this.basicOperation["DefineSubSystem"]["end"])) {
-  // if (this.subSystem !== null && this.setINTO_Operation === null) {
-  // this.JSON_code["Code"]["SubSystem"][this.subSystemIndex] = this.clone(
-  // this.subSystem
-  // );
-  // }
-  //
-  // if (this.setINTO_Operation !== null) {
-  // this.JSON_code["Code"]["SubSystem"][this.subSystemIndex - 1][
-  // this.setINTO_Operation["Operation"]
-  // ][this.setINTO_Operation["Index"]]["SubSystem"] = this.clone(
-  // this.subSystem
-  // );
-  // this.setINTO_Operation = null;
-  // }
-  //
-  // if (--this.subSystemIndex >= 0) {
-  // this.subSystem = this.clone(
-  // this.JSON_code["Code"]["SubSystem"][this.subSystemIndex]
-  // );
-  // } else {
-  // this.subSystem = null;
-  // }
-  //
-  // return true;
-  // }
-  // return false;
-  // }
-
+  /**
+   *    This method "defineSubSystem" find line that contain chars "{}" and
+   *  after that will thought that after this chart will be come the subSystem
+   *  of previous operation like conditionalOperation, loops etc.
+   *
+   * @param {*} index   --    Don't use it, in future delete it...
+   * @param {*} line    --    Need for find chars "{}"
+   * @memberof MainParser
+   */
   defineSubSystem(index, line) {
     if (line.includes(this.basicOperation["DefineSubSystem"]["start"])) {
       this.subSystemIndex++;
-      // if (this.subSystems[this.subSystemIndex] == null) {
       this.defineSubSystemStructure();
-      // }
     }
     if (line.includes(this.basicOperation["DefineSubSystem"]["end"])) {
       this.subSystemIndex--;
@@ -241,7 +248,7 @@ class MainParser {
         this.subSystems[this.subSystemIndex][
           this.setINTO_Operation[this.setINTO_OperationIndex]["Operation"]
         ][this.setINTO_Operation[this.setINTO_OperationIndex--]["Index"]][
-          "Subsystem"
+          "SubSystem"
         ] = this.clone(this.subSystems[this.subSystemIndex + 1]);
       }
 
@@ -251,6 +258,14 @@ class MainParser {
     }
   }
 
+  /**
+   *    This method just clone me the object that I send to him, it have
+   *  simple structure so it just clone first layout, what's flow under water, not in Deep
+   *
+   * @param {*} object
+   * @returns
+   * @memberof MainParser
+   */
   clone(object) {
     let copy = {};
     for (let key in object) {
