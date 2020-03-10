@@ -7,7 +7,8 @@ class MainParser {
 
     // In my opinion all program splitted in a few subSystem
     this.subSystem = null;
-    this.subSystemIndex = 0;
+    this.subSystems = {};
+    this.subSystemIndex = -1;
 
     // This Object will contain basic operation for each language it will be different
     //    Each children class load in it his basic language operation (More shorter, this parameter contain language grammar)
@@ -18,7 +19,8 @@ class MainParser {
     this.basicOperation["DefineSubSystem"] = { start: "", end: "" };
     this.basicOperation["Loop"] = [];
 
-    this.setINTO_Operation = null;
+    this.setINTO_Operation = {};
+    this.setINTO_OperationIndex = -1;
     this.defineJSON_Structure();
   }
 
@@ -29,11 +31,11 @@ class MainParser {
   }
 
   defineSubSystemStructure() {
-    this.subSystem = {};
-    this.subSystem["Assign"] = {};
-    this.subSystem["InputOutput"] = {};
-    this.subSystem["ConditionalOperation"] = {};
-    this.subSystem["Set"] = {};
+    this.subSystems[this.subSystemIndex] = {};
+    this.subSystems[this.subSystemIndex]["Assign"] = {};
+    this.subSystems[this.subSystemIndex]["InputOutput"] = {};
+    this.subSystems[this.subSystemIndex]["ConditionalOperation"] = {};
+    this.subSystems[this.subSystemIndex]["Set"] = {};
   }
   // TODO: Make compare block -- it's (if, while <--(but I don't know))
 
@@ -77,10 +79,9 @@ class MainParser {
       console.log(this.JSON_code["Code"]["SubSystem"][key]);
     }
     console.log();
+    console.log();
 
-    console.log(
-      this.JSON_code["Code"]["SubSystem"]["0"]["ConditionalOperation"]
-    );
+    console.log(this.subSystems[0]["ConditionalOperation"]["7"]["Subsystem"]);
   }
 
   /**
@@ -102,8 +103,8 @@ class MainParser {
           .replace(/[; ]/g, "")
           .split("=");
 
-        if (this.subSystem !== null) {
-          this.subSystem["Assign"][index] = line;
+        if (this.subSystemIndex != -1) {
+          this.subSystems[this.subSystemIndex]["Assign"][index] = line;
         } else {
           this.JSON_code["Code"]["Assign"][index] = line;
         }
@@ -119,7 +120,7 @@ class MainParser {
   setData(index, line) {
     line = line.replace(/[; ]/g, "").split("=");
 
-    this.subSystem["Set"][index] = line;
+    this.subSystems[this.subSystemIndex]["Set"][index] = line;
     return false;
   }
 
@@ -144,7 +145,7 @@ class MainParser {
           .split("  ")
           .join("");
 
-        this.subSystem["InputOutput"][index] = line;
+        this.subSystems[this.subSystemIndex]["InputOutput"][index] = line;
 
         return true;
       }
@@ -160,10 +161,10 @@ class MainParser {
           .join("")
           .replace(/[() ]/g, "");
 
-        this.subSystem["ConditionalOperation"][index] = {
+        this.subSystems[this.subSystemIndex]["ConditionalOperation"][index] = {
           Value: line
         };
-        this.setINTO_Operation = {
+        this.setINTO_Operation[++this.setINTO_OperationIndex] = {
           Index: index,
           Operation: "ConditionalOperation"
         };
@@ -187,43 +188,67 @@ class MainParser {
     return false;
   }
 
+  // defineSubSystem(index, line) {
+  // if (line.includes(this.basicOperation["DefineSubSystem"]["start"])) {
+  // if (this.subSystem !== null) {
+  // this.JSON_code["Code"]["SubSystem"][this.subSystemIndex++] = this.clone(
+  // this.subSystem
+  // );
+  // }
+  // this.defineSubSystemStructure();
+  //
+  // return true;
+  // } else if (line.includes(this.basicOperation["DefineSubSystem"]["end"])) {
+  // if (this.subSystem !== null && this.setINTO_Operation === null) {
+  // this.JSON_code["Code"]["SubSystem"][this.subSystemIndex] = this.clone(
+  // this.subSystem
+  // );
+  // }
+  //
+  // if (this.setINTO_Operation !== null) {
+  // this.JSON_code["Code"]["SubSystem"][this.subSystemIndex - 1][
+  // this.setINTO_Operation["Operation"]
+  // ][this.setINTO_Operation["Index"]]["SubSystem"] = this.clone(
+  // this.subSystem
+  // );
+  // this.setINTO_Operation = null;
+  // }
+  //
+  // if (--this.subSystemIndex >= 0) {
+  // this.subSystem = this.clone(
+  // this.JSON_code["Code"]["SubSystem"][this.subSystemIndex]
+  // );
+  // } else {
+  // this.subSystem = null;
+  // }
+  //
+  // return true;
+  // }
+  // return false;
+  // }
+
   defineSubSystem(index, line) {
     if (line.includes(this.basicOperation["DefineSubSystem"]["start"])) {
-      if (this.subSystem !== null) {
-        this.JSON_code["Code"]["SubSystem"][this.subSystemIndex++] = this.clone(
-          this.subSystem
-        );
-      }
+      this.subSystemIndex++;
+      // if (this.subSystems[this.subSystemIndex] == null) {
       this.defineSubSystemStructure();
-
-      return true;
-    } else if (line.includes(this.basicOperation["DefineSubSystem"]["end"])) {
-      if (this.subSystem !== null && this.setINTO_Operation === null) {
-        this.JSON_code["Code"]["SubSystem"][this.subSystemIndex] = this.clone(
-          this.subSystem
-        );
-      }
-
-      if (this.setINTO_Operation !== null) {
-        this.JSON_code["Code"]["SubSystem"][this.subSystemIndex - 1][
-          this.setINTO_Operation["Operation"]
-        ][this.setINTO_Operation["Index"]]["SubSystem"] = this.clone(
-          this.subSystem
-        );
-        this.setINTO_Operation = null;
-      }
-
-      if (--this.subSystemIndex >= 0) {
-        this.subSystem = this.clone(
-          this.JSON_code["Code"]["SubSystem"][this.subSystemIndex]
-        );
-      } else {
-        this.subSystem = null;
-      }
-
-      return true;
+      // }
     }
-    return false;
+    if (line.includes(this.basicOperation["DefineSubSystem"]["end"])) {
+      this.subSystemIndex--;
+
+      if (this.setINTO_OperationIndex != -1) {
+        this.subSystems[this.subSystemIndex][
+          this.setINTO_Operation[this.setINTO_OperationIndex]["Operation"]
+        ][this.setINTO_Operation[this.setINTO_OperationIndex--]["Index"]][
+          "Subsystem"
+        ] = this.clone(this.subSystems[this.subSystemIndex + 1]);
+      }
+
+      if (this.subSystemIndex == -1) {
+        this.JSON_code["Code"]["SubSystem"] = this.clone(this.subSystems["0"]);
+      }
+    }
   }
 
   clone(object) {

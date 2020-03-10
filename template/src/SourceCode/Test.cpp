@@ -21,6 +21,10 @@ int main()
     if (a == 0)
     {
         printf("It's Work!");
+        if (b == 0)
+        {
+            printf("This is not good!!");
+        }
     }
     else
     {
