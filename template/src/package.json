@@ -1,0 +1,11 @@
+{
+  "name": "template",
+  "author": {
+    "name": "Andrew Yushchenko"
+  },
+  "version": "1.0.1",
+  "main": "Main.js",
+  "scripts": {
+    "start": "node Main"
+  }
+}
