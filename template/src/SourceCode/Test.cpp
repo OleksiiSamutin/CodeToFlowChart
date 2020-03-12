@@ -31,6 +31,15 @@ int main()
         printf("It's not Working!!!");
     }
 
+    if (a == 0)
+    {
+        printf("It's Work!");
+        if (b == 0)
+        {
+            printf("This is not good!!");
+        }
+    }
+
     a = 5;
 
     return 0;
