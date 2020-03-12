@@ -11,6 +11,7 @@ body{
     border-radius: 4px;
     padding: 0 10px;
 
+
 }
 .header-text{
     margin: 8px 20px;
@@ -35,4 +36,18 @@ body{
     border-bottom: 1px dotted #fff;
     margin: 0;
     margin-bottom: 5px;
+}
+form{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+label {
+    font-size: 2em;
+    margin-bottom: 15px;
+}
+
+.submit-btn {
+    margin-top: 10px;
 }
