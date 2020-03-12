@@ -92,6 +92,7 @@ class MainParser {
     console.log();
 
     console.log(this.subSystems[0]["ConditionalOperation"]["7"]["SubSystem"]);
+    console.log(this.subSystems[0]["ConditionalOperation"]["13"]["SubSystem"]);
   }
 
   /**
