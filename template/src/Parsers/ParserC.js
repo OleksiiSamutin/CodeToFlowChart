@@ -25,7 +25,6 @@ class ParserC extends MainParser {
   }
   parseToJSON(str) {
     super.parseToJSON(str);
-    console.log(this.JSON_code);
   }
   print(param) {
     super.print();
