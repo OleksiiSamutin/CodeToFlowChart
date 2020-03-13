@@ -1,5 +1,5 @@
 const ParserC = module.require("./Parsers/ParserC.js");
-function setSourceCode(path) {
+module.exports.setSourceCode = function setSourceCode(path) {
   // This operation below read code from Testing File and split it line by line, it's needed
 
 
@@ -32,4 +32,3 @@ function setSourceCode(path) {
   }
 }
 
-setSourceCode("SourceCode/Test.cpp");

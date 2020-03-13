@@ -3,7 +3,10 @@ let input = document.getElementById("inputFile");
 input.addEventListener('change', sendFileToBackend);
 
 function sendFileToBackend(){
-    var currFiles = input.value;
-    console.log(currFiles);
-    backend.setSourceCode(currFiles);
+    var currFiles = input.files;
+    if (currFiles.length !== 0){
+        let path = input.value;
+        backend.setSourceCode(path);
+    }
+
 }
