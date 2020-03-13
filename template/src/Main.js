@@ -1,7 +1,7 @@
 const ParserC = module.require("./Parsers/ParserC.js");
 module.exports.setSourceCode = function setSourceCode(path, file) {
   // This operation below read code from Testing File and split it line by line, it's needed
-  
+
   console.log(path);
   //  only for making a start point and will not be used in a future
 
@@ -16,7 +16,8 @@ module.exports.setSourceCode = function setSourceCode(path, file) {
 
       parser.print();
 
-      parser.parseToJSON(file.split("\n"));
+      parser.parseToJSON(file.replace(/{/g, "\n{\n")
+      .replace(/}/g, "\n}\n").split("\n"));
       break;
     }
     case "py": {
