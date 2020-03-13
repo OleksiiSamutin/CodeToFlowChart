@@ -3,10 +3,17 @@ let input = document.getElementById("inputFile");
 input.addEventListener('change', sendFileToBackend);
 
 function sendFileToBackend(){
-    var currFiles = input.files;
+    var reader = new FileReader();
+    var currFiles = input.files[0];
     if (currFiles.length !== 0){
         let path = input.value;
-        backend.setSourceCode(path);
+        //
+        reader.readAsText(currFiles);
+
+        reader.onload = function () {
+            let file = reader.result;
+            backend.setSourceCode(currFiles.name, file);
+          }
     }
 
 }
