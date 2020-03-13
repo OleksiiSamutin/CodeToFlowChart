@@ -61,7 +61,6 @@ class MainParser {
 
     let undefinedLine = 0;
 
-    console.log(this.JSON_code);
     for (let line in strArray) {
       this.defineSubSystem(line - undefinedLine, strArray[line]);
 
@@ -82,17 +81,34 @@ class MainParser {
       undefinedLine++;
     }
 
-    console.log(this.JSON_code["Code"]);
+    this.printJSON(this.JSON_code);
+  }
 
-    for (let key in this.JSON_code["Code"]["SubSystem"]) {
-      console.log("\n" + key);
-      console.log(this.JSON_code["Code"]["SubSystem"][key]);
+  printJSON(structure) {
+    let complexStructure = ["SubSystem", "ConditionalOperation", "Loop"];
+
+    for (let i in structure) {
+      console.log(i);
+      console.log(structure[i]);
+
+      for (let j = 0; j < complexStructure.length; j++) {
+        if (
+          typeof structure[i] == "object" &&
+          structure[i].length !== 0 &&
+          (complexStructure[j] in structure[i] || i == complexStructure[j])
+        ) {
+          console.log(
+            "\n" +
+              "___________________________________\n\t" +
+              complexStructure[j] +
+              "\n===================================\n"
+          );
+
+          this.printJSON(structure[i]);
+          break;
+        }
+      }
     }
-    console.log();
-    console.log();
-
-    console.log(this.subSystems[0]["ConditionalOperation"]["7"]["SubSystem"]);
-    console.log(this.subSystems[0]["ConditionalOperation"]["13"]["SubSystem"]);
   }
 
   /**
@@ -201,7 +217,6 @@ class MainParser {
           Operation: "ConditionalOperation"
         };
 
-        console.log(line);
         return true;
       }
     }
@@ -219,8 +234,24 @@ class MainParser {
   defineLoops(index, line) {
     for (let key in this.basicOperation["Loop"]) {
       if (line.includes(this.basicOperation["Loop"][key])) {
-        console.log("I'm here!");
-        console.log(this.basicOperation["Loop"][key]);
+        line = line
+          .split(this.basicOperation["Loop"][key])
+          .join("")
+          .replace(/[()]/g, "")
+          .split("  ")
+          .join("");
+
+        this.subSystems[this.subSystemIndex]["Loop"][index] = {
+          Operation: this.basicOperation["Loop"][key],
+          Value: line
+        };
+
+        this.setINTO_Operation[++this.setINTO_OperationIndex] = {
+          Index: index,
+          Operation: "Loop"
+        };
+
+        console.log(line);
 
         return true;
       }

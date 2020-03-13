@@ -8,13 +8,15 @@ module.exports.setSourceCode = function setSourceCode(path) {
   // @param fs  -- It's shortcut of FileSystem
   text = require("fs")
     .readFileSync(path, "ASCII")
+    .replace(/{/g, "\n{\n")
+    .replace(/}/g, "\n}\n")
     .split("\n");
 
   // This variable below need for temporal save cut pass
   switch (path.split(".")[1]) {
     case "cpp":
     case "c": {
-      console.log(text);
+      // console.log(text);
       //  Declaration of import module for Parsing C code
       let parser = new ParserC();
 

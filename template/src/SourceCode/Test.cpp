@@ -13,9 +13,12 @@ int main()
 
     printf("b = %f\n", b);
 
-    for (int i = 0; i < 10; i++)
-    {
+    for (int i = 0; i < 10; i++) {
         printf("Hello world!");
+    }
+
+    while(a < 1510) {
+        a = 0;
     }
 
     if (a == 0)
