@@ -1,7 +1,10 @@
 const ParserC = module.require("./Parsers/ParserC.js");
 function setSourceCode(path) {
   // This operation below read code from Testing File and split it line by line, it's needed
-  //  only for making a start point and will not be use in a future
+
+
+  //  only for making a start point and will not be used in a future
+
   // @param fs  -- It's shortcut of FileSystem
   text = require("fs")
     .readFileSync(path, "ASCII")
