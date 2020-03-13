@@ -1,17 +1,11 @@
 const ParserC = module.require("./Parsers/ParserC.js");
-function setSourceCode(path) {
+module.exports.setSourceCode = function setSourceCode(path, file) {
   // This operation below read code from Testing File and split it line by line, it's needed
-
-
+  
+  console.log(path);
   //  only for making a start point and will not be used in a future
 
   // @param fs  -- It's shortcut of FileSystem
-  text = require("fs")
-    .readFileSync(path, "ASCII")
-    .replace(/{/g, "\n{\n")
-    .replace(/}/g, "\n}\n")
-    .split("\n");
-
   // This variable below need for temporal save cut pass
   switch (path.split(".")[1]) {
     case "cpp":
@@ -22,7 +16,7 @@ function setSourceCode(path) {
 
       parser.print();
 
-      parser.parseToJSON(text);
+      parser.parseToJSON(file.split("\n"));
       break;
     }
     case "py": {
@@ -34,4 +28,3 @@ function setSourceCode(path) {
   }
 }
 
-setSourceCode("SourceCode/Test.cpp");
