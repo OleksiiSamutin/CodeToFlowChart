@@ -9,7 +9,7 @@ body{
     background-color: rgb(92, 119, 29);
     align-items: center;
     border-radius: 4px;
-    padding: 0 10px;
+    padding: 10px;
 
 
 }
@@ -38,16 +38,67 @@ body{
     margin-bottom: 5px;
 }
 form{
-    margin-top: 20px;
+    margin: 20px 10px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: flex-start;
 }
 label {
     font-size: 2em;
     margin-bottom: 15px;
 }
-
-.submit-btn {
-    margin-top: 10px;
+.submit-btn,label{
+    border-radius: 5px;
 }
+.submit-btn {
+    margin-left: 20px;
+    color: #fff6fe;
+    background-color: green;
+    border: none;
+    font-weight: 700;
+    font-size: 1.25em;
+    padding: 0.625rem 1.25rem;
+    cursor: pointer;
+
+}
+.submit-btn:hover{
+    background-color: #013e01;
+    transition: background .2s linear;
+}
+
+.inputFile {
+    width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.inputFile + label {
+    font-size: 1.25em;
+    font-weight: 700;
+    color: #fff6fe;
+    background-color: #3e51d3;
+    display: inline-block;
+    max-width: 80%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 0.625rem 1.25rem;
+    cursor: pointer;
+}
+.inputFile:focus + label,
+.inputFile + label:hover {
+    background-color: #3443ac;
+    transition: background .2s linear;
+}
+.inputFile:focus + label {
+	outline: 1px dotted #000;
+	outline: -webkit-focus-ring-color auto 5px;
+}
+svg{
+    fill: white;
+    margin-right: 10px;
+}
+
