@@ -224,10 +224,11 @@ class MainParser {
   }
 
   /**
-   *   I don't finish it sooo, it's coming soon!!
+   * This function find all signs that we are dealing with loops
+   *  and store it in like {Operation : "for"(or else), "Value" : "int i = 0; i < len; i++", SubSystem: {}}
    *
-   * @param {*} index
-   * @param {*} line
+   * @param {*} index   --  Description the same as above, it's use for set individual parameter
+   * @param {*} line    --  This is just string of source code
    * @returns
    * @memberof MainParser
    */
