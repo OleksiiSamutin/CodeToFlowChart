@@ -84,6 +84,10 @@ class MainParser {
     this.printJSON(this.JSON_code);
   }
 
+  getJSON() {
+    return this.JSON_code;
+  }
+
   printJSON(structure) {
     let complexStructure = ["SubSystem", "ConditionalOperation", "Loop"];
 
@@ -210,11 +214,11 @@ class MainParser {
           .replace(/[() ]/g, "");
 
         this.subSystems[this.subSystemIndex]["ConditionalOperation"][index] = {
-          Value: line
+          Value: line,
         };
         this.setINTO_Operation[++this.setINTO_OperationIndex] = {
           Index: index,
-          Operation: "ConditionalOperation"
+          Operation: "ConditionalOperation",
         };
 
         return true;
@@ -244,12 +248,12 @@ class MainParser {
 
         this.subSystems[this.subSystemIndex]["Loop"][index] = {
           Operation: this.basicOperation["Loop"][key],
-          Value: line
+          Value: line,
         };
 
         this.setINTO_Operation[++this.setINTO_OperationIndex] = {
           Index: index,
-          Operation: "Loop"
+          Operation: "Loop",
         };
 
         console.log(line);

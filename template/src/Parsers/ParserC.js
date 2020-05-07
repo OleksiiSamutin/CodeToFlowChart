@@ -29,6 +29,10 @@ class ParserC extends MainParser {
   print(param) {
     super.print();
   }
+
+  getJSON() {
+    return super.getJSON;
+  }
 }
 
 // Declaration for exporting this class in old faction way

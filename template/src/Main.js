@@ -1,5 +1,5 @@
 const ParserC = module.require("./Parsers/ParserC.js");
-module.exports.setSourceCode = function setSourceCode(path, file) {
+function setSourceCode(path, file) {
   // This operation below read code from Testing File and split it line by line, it's needed
 
   console.log(path);
