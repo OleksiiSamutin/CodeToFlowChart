@@ -1,16 +1,4 @@
-const ParserC = module.require("./Parsers/ParserC.js");
-function setSourceCode(text) {
-  text = text.replace(/{/g, "\n{\n").replace(/}/g, "\n}\n").split("\n");
-
-  let parser = new ParserC();
-
-  parser.print();
-
-  parser.parseToJSON(text);
-
-  return parser.getJSON();
-}
-
+const Main = require("./Main");
 var http = require("http");
 var Static = require("node-static");
 var WebSocketServer = new require("ws");
@@ -27,7 +15,7 @@ webSocketServer.on("connection", function (ws) {
   ws.on("message", function (text) {
     console.log(text);
 
-    client.send(JSON.stringify(setSourceCode(text)));
+    client.send(JSON.stringify(Main.setSourceCode(text)));
   });
 
   ws.on("close", function () {
