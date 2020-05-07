@@ -1,10 +1,8 @@
-var express = require("express");
-var app = express();
+var net = require("net");
 
-app.get("/", function(req, res) {
-  res.send("Hello World!");
+var server = net.createServer(function(socket) {
+  socket.write("Echo server\r\n");
+  socket.pipe(socket);
 });
 
-app.listen(3000, function() {
-  console.log("Example app listening on port 3000!");
-});
+server.listen(1337, "127.0.0.1");
