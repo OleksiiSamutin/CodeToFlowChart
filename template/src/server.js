@@ -3,9 +3,8 @@ var http = require("http");
 var Static = require("node-static");
 var WebSocketServer = new require("ws");
 
-// подключенные клиенты
 var client;
-// WebSocket-сервер на порту 8081
+// WebSocket-server port 8081
 var webSocketServer = new WebSocketServer.Server({ port: 8081 });
 webSocketServer.on("connection", function (ws) {
   var id = Math.random();
@@ -24,7 +23,6 @@ webSocketServer.on("connection", function (ws) {
   });
 });
 
-// обычный сервер (статика) на порту 8080
 var fileServer = new Static.Server(".");
 http
   .createServer(function (req, res) {
@@ -32,4 +30,4 @@ http
   })
   .listen(8080);
 
-console.log("Сервер запущен на портах 8080, 8081");
+console.log("Server is running on port 8080, 8081");
