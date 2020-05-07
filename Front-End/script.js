@@ -44,7 +44,7 @@ var socket = new WebSocket("ws://localhost:8081");
 
 // отправить сообщение из формы publish
 document.forms.publish.onsubmit = function() {
-  var outgoingMessage = this.message.value;
+  var outgoingMessage = file;
 
   socket.send(outgoingMessage);
   return false;
