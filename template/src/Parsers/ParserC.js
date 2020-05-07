@@ -31,7 +31,7 @@ class ParserC extends MainParser {
   }
 
   getJSON() {
-    return super.getJSON;
+    return super.getJSON();
   }
 }
 
