@@ -49,13 +49,13 @@ document.forms.publish.onsubmit = function () {
 
 // обработчик входящих сообщений
 socket.onmessage = function (event) {
-  if (event.data == "GetFile") {
-    var outgoingMessage = file;
-    socket.send(outgoingMessage);
-  } else {
-    var incomingMessage = event.data;
-    showMessage(incomingMessage);
-  }
+  // if (event.data == "GetFile") {
+  //   var outgoingMessage = file;
+  //   socket.send(outgoingMessage);
+  // } else {
+  var incomingMessage = event.data;
+  showMessage(incomingMessage);
+  // }
 };
 
 // показать сообщение в div#subscribe
