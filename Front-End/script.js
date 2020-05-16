@@ -44,18 +44,23 @@ var socket = new WebSocket("ws://localhost:8081");
 // отправить сообщение из формы publish
 document.forms.publish.onsubmit = function () {
   socket.send("cpp");
+  console.log("Send!!");
+
   return false;
 };
 
 // обработчик входящих сообщений
 socket.onmessage = function (event) {
-  // if (event.data == "GetFile") {
-  //   var outgoingMessage = file;
-  //   socket.send(outgoingMessage);
-  // } else {
-  var incomingMessage = event.data;
-  showMessage(incomingMessage);
-  // }
+  console.log(event.data);
+
+  if (event.data == "GetFile") {
+    var outgoingMessage = file;
+    socket.send(outgoingMessage);
+    console.log(event.data);
+  } else {
+    var incomingMessage = event.data;
+    showMessage(incomingMessage);
+  }
 };
 
 // показать сообщение в div#subscribe

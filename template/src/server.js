@@ -13,11 +13,14 @@ webSocketServer.on("connection", function (ws) {
   var fileType;
 
   ws.on("message", function (text) {
-    // if (text in ["c", "cpp", "java", "py"]) {
-    fileType = text;
-    console.log(text);
-    client.send("GetFile");
-    // } else client.send(Main.setSourceCode(fileType, text));
+    if (["c", "cpp", "py", "java"].indexOf(text) >= 0) {
+      fileType = text;
+      console.log(text);
+      client.send("GetFile");
+    } else {
+      client.send(JSON.stringify(Main.setSourceCode("cpp", text)));
+    }
+    // else console.log("Nop");
   });
 
   ws.on("close", function () {
