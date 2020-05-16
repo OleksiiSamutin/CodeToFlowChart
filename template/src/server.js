@@ -18,7 +18,7 @@ webSocketServer.on("connection", function (ws) {
       console.log(text);
       client.send("GetFile");
     } else {
-      client.send(JSON.stringify(Main.setSourceCode("cpp", text)));
+      client.send(JSON.stringify(Main.setSourceCode(fileType, text)));
     }
     // else console.log("Nop");
   });
