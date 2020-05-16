@@ -7,18 +7,25 @@ var client;
 // WebSocket-server port 8081
 var webSocketServer = new WebSocketServer.Server({ port: 8081 });
 webSocketServer.on("connection", function (ws) {
-  var id = Math.random();
   client = ws;
-  console.log("New connection " + id);
+  console.log("New connection ");
+
+  var fileType;
+
+  ws.on("message", function (text) {
+    fileType = text;
+    client.send("Ok");
+    console.log(text);
+  });
 
   ws.on("message", function (text) {
     console.log(text);
 
-    client.send(JSON.stringify(Main.setSourceCode(text)));
+    client.send(Main.setSourceCode(fileType, text));
   });
 
   ws.on("close", function () {
-    console.log("Connection Close " + id);
+    console.log("Connection Close ");
     delete client;
   });
 });

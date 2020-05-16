@@ -1,14 +1,20 @@
 const ParserC = module.require("./Parsers/ParserC.js");
-function setSourceCode(text) {
+function setSourceCode(fileType, text) {
   text = text.replace(/{/g, "\n{\n").replace(/}/g, "\n}\n").split("\n");
 
-  let parser = new ParserC();
-
-  parser.print();
-
-  parser.parseToJSON(text);
-
-  return parser.getJSON();
+  switch (fileType) {
+    case "cpp":
+    case "c": {
+      let parser = new ParserC();
+      parser.parseToJSON(text);
+      return parser.getJSON();
+    }
+    case "py":
+      break;
+    case "java":
+      break;
+  }
+  return "Parser for fileType " + fileType + "does not exist!";
 }
 
 module.exports.setSourceCode = setSourceCode;
