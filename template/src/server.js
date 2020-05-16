@@ -2,8 +2,24 @@ const Main = require("./Main");
 var http = require("http");
 var Static = require("node-static");
 var WebSocketServer = new require("ws");
-
 var client;
+
+const fileExtensions = ["c", "cpp", "py", "java"];
+
+/**
+ * server.js
+ * Create Back-End Server and produce communication with
+ * Front-End Client.
+ *
+ * A simple illustration of Client/Server communication
+ *
+ * Client sends to Server: File Type
+ * Server sends to Clint: "GetFile"
+ *
+ * Client sends to Server: Text from Code file
+ * Server sends to Client: PlantUML URL
+ */
+
 // WebSocket-server port 8081
 var webSocketServer = new WebSocketServer.Server({ port: 8081 });
 webSocketServer.on("connection", function (ws) {
@@ -13,7 +29,7 @@ webSocketServer.on("connection", function (ws) {
   var fileType;
 
   ws.on("message", function (text) {
-    if (["c", "cpp", "py", "java"].indexOf(text) >= 0) {
+    if (fileExtensions.indexOf(text) >= 0) {
       fileType = text;
       console.log(text);
       client.send("GetFile");
