@@ -47,17 +47,15 @@ document.forms.publish.onsubmit = function () {
   return false;
 };
 
-socket.onmessage = function (event) {
-  var outgoingMessage = file;
-
-  socket.send(outgoingMessage);
-  return false;
-};
-
 // обработчик входящих сообщений
 socket.onmessage = function (event) {
-  var incomingMessage = event.data;
-  showMessage(incomingMessage);
+  if (event.data == "GetFile") {
+    var outgoingMessage = file;
+    socket.send(outgoingMessage);
+  } else {
+    var incomingMessage = event.data;
+    showMessage(incomingMessage);
+  }
 };
 
 // показать сообщение в div#subscribe
