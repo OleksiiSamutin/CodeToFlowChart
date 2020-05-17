@@ -81,7 +81,7 @@ class MainParser {
       undefinedLine++;
     }
 
-    this.printJSON(this.JSON_code);
+    // this.printJSON(this.JSON_code);
   }
 
   getJSON() {
