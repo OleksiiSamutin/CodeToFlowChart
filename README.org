@@ -6,7 +6,7 @@ The client part uses native JS.
 
 The server part uses WEB socket.
 *** MVC
-<img src="https://github.com/OleksiiSamutin/CodeToFlowChart/blob/master/template/src/doc/MVC.png" alt="My cool logo"/>
+![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
 ** Usage
 #+begin_src
 // How to run backend
