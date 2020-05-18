@@ -1,0 +1,22 @@
+* CodeToFlowChart - service for translating code to plantUML
+** Structure
+The project consists of two independent parts: client and server.
+
+The client part uses native JS.
+
+The server part uses WEB socket.
+
+** Usage
+#+begin_src
+cd CodeToFlowChart/template/src       (linux)
+cd CodeToFlowChart\template\src       (Windows)
+node server.js
+run index.html from /FRONT-END/index.html/
+npm start
+#+end_src
+
+** Authors
+See [[AUTHORS.org][AUTHORS]]
+
+** License
+See [[LICENSE][LICENSE]]
