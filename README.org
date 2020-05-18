@@ -18,6 +18,9 @@ node server.js
 run index.html from /FRONT-END/index.html/
 npm start
 #+end_src
+** Communication between Client/Server
+#+caption: Org mode logo
+[[https://github.com/OleksiiSamutin/CodeToFlowChart/blob/master/template/src/doc/Client_Server.png]]
 ** Tests
 #+begin_src
 cd CodeToFlowChart/template/src/test
