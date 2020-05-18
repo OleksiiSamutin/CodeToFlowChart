@@ -7,7 +7,7 @@ The client part uses native JS.
 The server part uses WEB socket.
 *** MVC
 #+caption: Org mode logo
-[[file:images/org-mode-unicorn.png]]
+[[https://raw.githubusercontent.com/adam-p/markdown-here/master/src/common/images/icon48.png]]
 ** Usage
 #+begin_src
 // How to run backend
