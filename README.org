@@ -8,9 +8,11 @@ The server part uses WEB socket.
 
 ** Usage
 #+begin_src
+// How to run backend
 cd CodeToFlowChart/template/src       (linux)
 cd CodeToFlowChart\template\src       (Windows)
 node server.js
+// How to run front-end
 run index.html from /FRONT-END/index.html/
 npm start
 #+end_src
