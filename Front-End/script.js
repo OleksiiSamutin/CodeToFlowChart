@@ -2,22 +2,25 @@ let backend = require("../template/src/Main.js");
 let input = document.getElementById("inputFile");
 input.addEventListener("change", sendFileToBackend);
 let file;
+/**
+ * takes inputed text from user, and sends to backend
+ *
+ */
 function sendFileToBackend() {
   var reader = new FileReader();
   var currFiles = input.files[0];
   if (currFiles.length !== 0) {
     let path = input.value;
-    //
     reader.readAsText(currFiles);
-
     reader.onload = function () {
       file = reader.result;
       backend.setSourceCode(currFiles.name, file);
     };
   }
 }
-
+// select all inputs on page
 var inputs = document.querySelectorAll(".inputFile");
+// add listeners to inputs
 Array.prototype.forEach.call(inputs, function (input) {
   var label = input.nextElementSibling,
     labelVal = label.innerHTML;
@@ -33,15 +36,15 @@ Array.prototype.forEach.call(inputs, function (input) {
     else label.innerHTML = labelVal;
   });
 });
-
+// Fallback if websocket doesn't maintains
 if (!window.WebSocket) {
   document.body.innerHTML = "WebSocket в этом браузере не поддерживается.";
 }
 
-// создать подключение
+// establish connection
 var socket = new WebSocket("ws://localhost:8081");
 
-// отправить сообщение из формы publish
+// send a message from the form
 document.forms.publish.onsubmit = function () {
   socket.send("cpp");
   console.log("Send!!");
@@ -49,7 +52,7 @@ document.forms.publish.onsubmit = function () {
   return false;
 };
 
-// обработчик входящих сообщений
+// incoming message handler
 socket.onmessage = function (event) {
   console.log(event.data);
 
@@ -63,9 +66,10 @@ socket.onmessage = function (event) {
   }
 };
 
-// показать сообщение в div#subscribe
+//show message in div#subscribe
 function showMessage(message) {
   var messageElem = document.createElement("div");
   messageElem.appendChild(document.createTextNode(message));
   document.getElementById("subscribe").appendChild(messageElem);
 }
+
