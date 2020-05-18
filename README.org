@@ -5,7 +5,7 @@ The project consists of two independent parts: client and server.
 The client part uses native JS.
 
 The server part uses WEB socket.
-
+*** MVC
 ** Usage
 #+begin_src
 // How to run backend
@@ -13,8 +13,6 @@ cd CodeToFlowChart/template/src       (linux)
 cd CodeToFlowChart\template\src       (Windows)
 node server.js
 // How to run front-end
-cd ../.. (linux)
-cd Front-End   (linux)
 run index.html from /FRONT-END/index.html/
 npm start
 #+end_src
