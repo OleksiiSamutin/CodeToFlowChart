@@ -8,6 +8,13 @@ int main()
 
     double b = c + a;
 
+<<<<<<< HEAD
+=======
+    a = 0;
+
+    a = 5;
+
+>>>>>>> 704753c40bf0129d31d237f0fc5ae8ee1cdc1eea
     printf("b = %f\n", b);
 
     if (a == 0)
@@ -43,6 +50,7 @@ int main()
         }
     }
 
+<<<<<<< HEAD
     while (a<5){
        printf(c);
         a -= 1;
@@ -50,5 +58,7 @@ int main()
 
     c = 5;
 
+=======
+>>>>>>> 704753c40bf0129d31d237f0fc5ae8ee1cdc1eea
     return 0;
 }

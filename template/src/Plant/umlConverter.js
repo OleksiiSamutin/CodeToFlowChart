@@ -1,4 +1,9 @@
 function setJSON(dict) {
+<<<<<<< HEAD
+=======
+  console.log("JSON is set", dict.Code);
+  console.log(dict.Name);
+>>>>>>> 704753c40bf0129d31d237f0fc5ae8ee1cdc1eea
 
   let encode6bit = (e) => {
     return e < 10
@@ -82,7 +87,12 @@ function setJSON(dict) {
           ifFlag = 0;
         }
 
+<<<<<<< HEAD
         arr[i] = "if (" + json.ConditionalOperation[i].Value + "?) then (yes)\n";
+=======
+        arr[i] =
+          "if (" + json.ConditionalOperation[i].Value + "?) then (yes)\n";
+>>>>>>> 704753c40bf0129d31d237f0fc5ae8ee1cdc1eea
 
         ifFlag = 1; // set Flag to 1 after each if cycle
       } else {
@@ -97,7 +107,10 @@ function setJSON(dict) {
       let temp = ifFlag;
       ifFlag = 0; // Set to 0 for another subSystem
       conditionalOperation(json.ConditionalOperation[i].SubSystem);
+<<<<<<< HEAD
       enterLoop(json.ConditionalOperation[i].SubSystem);
+=======
+>>>>>>> 704753c40bf0129d31d237f0fc5ae8ee1cdc1eea
       ifFlag = temp;
 
       if (ifFlag == 0)
@@ -112,6 +125,7 @@ function setJSON(dict) {
     }
   }
 
+<<<<<<< HEAD
 
 
   function enterLoop(json){
@@ -141,29 +155,54 @@ function setJSON(dict) {
 
   enterLoop(dict.Code.SubSystem);
   conditionalOperation(dict.Code.SubSystem);
+=======
+>>>>>>> 704753c40bf0129d31d237f0fc5ae8ee1cdc1eea
   enterAssign(dict.Code);
   enterAssign(dict.Code.SubSystem);
   enterSet(dict.Code.SubSystem);
   inputOutput(dict.Code.SubSystem);
+<<<<<<< HEAD
   console.log(arr.join("\n"));
+=======
+  conditionalOperation(dict.Code.SubSystem);
+>>>>>>> 704753c40bf0129d31d237f0fc5ae8ee1cdc1eea
 
   var text = unescape(
     encodeURIComponent("@startuml\n (*)\n" + arr.join("\n") + "\n(*)\n@enduml")
   );
   module.exports = (text) => {
     // text =  unescape(encodeURIComponent(text))
+<<<<<<< HEAD
     let input = new Buffer(unescape(encodeURIComponent("@startuml\n (*) --> " + enterAssign(dict) + " --> (*)\n@enduml")),"utf8");
+=======
+    let input = new Buffer(
+      unescape(
+        encodeURIComponent(
+          "@startuml\n (*) --> " + enterAssign(dict) + " --> (*)\n@enduml"
+        )
+      ),
+      "utf8"
+    );
+>>>>>>> 704753c40bf0129d31d237f0fc5ae8ee1cdc1eea
     let res = zopfli.deflateSync(input, { blocksplitting: false });
     return encode64_(res);
   };
 
   var input = new Buffer(text);
   //   console.log(input.toString());
+<<<<<<< HEAD
+=======
+  let defl;
+>>>>>>> 704753c40bf0129d31d237f0fc5ae8ee1cdc1eea
 
   var deflated = zopfli.deflateSync(input, { blocksplitting: false });
   console.log("http://www.plantuml.com/plantuml/png/" + encode64_(deflated));
   return "http://www.plantuml.com/plantuml/png/" + encode64_(deflated);
 }
 
+<<<<<<< HEAD
 
 module.exports.setJSON = setJSON;
+=======
+module.exports.setJSON = setJSON;
+>>>>>>> 704753c40bf0129d31d237f0fc5ae8ee1cdc1eea
