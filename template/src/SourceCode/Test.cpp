@@ -11,15 +11,9 @@ int main()
 
     a = 0;
 
+    a = 5;
+
     printf("b = %f\n", b);
-
-    for (int i = 0; i < 10; i++) {
-        printf("Hello world!");
-    }
-
-    while(a < 1510) {
-        a = 0;
-    }
 
     if (a == 0)
     {
@@ -42,8 +36,6 @@ int main()
             printf("This is not good!!");
         }
     }
-
-    a = 5;
 
     return 0;
 }

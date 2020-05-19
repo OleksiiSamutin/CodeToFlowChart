@@ -62,7 +62,7 @@ socket.onmessage = function (event) {
     var incomingMessage = event.data;
     console.log(incomingMessage);
 
-    // showMessage(incomingMessage);
+    showMessage(incomingMessage);
   }
 };
 
