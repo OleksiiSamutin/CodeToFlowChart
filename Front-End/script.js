@@ -48,7 +48,6 @@ var socket = new WebSocket("ws://localhost:8081");
 document.forms.publish.onsubmit = function () {
   socket.send("cpp");
   console.log("Send!!");
-
   return false;
 };
 
