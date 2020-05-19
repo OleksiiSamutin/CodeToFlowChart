@@ -68,8 +68,8 @@ socket.onmessage = function (event) {
 
 //show message in div#subscribe
 function showMessage(message) {
-  var messageElem = document.createElement("div");
-  messageElem.appendChild(document.createTextNode(message));
-  document.getElementById("subscribe").appendChild(messageElem);
+  // var messageElem = document.createElement("div");
+  // messageElem.appendChild(document.createTextNode(message));
+  document.getElementById("subscribe").src= message;
 }
 

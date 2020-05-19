@@ -131,7 +131,7 @@ class MainParser {
         line = line
           .split(this.basicOperation["DataType"][i])
           .join("")
-          .replace(/[; ]/g, "")
+          .replace(/[; \r]/g, "")
           .split("=");
 
         if (this.subSystemIndex != -1) {
@@ -158,7 +158,7 @@ class MainParser {
    * @memberof MainParser
    */
   setData(index, line) {
-    line = line.replace(/[; ]/g, "").split("=");
+    line = line.replace(/[; \r]/g, "").split("=");
 
     this.subSystems[this.subSystemIndex]["Set"][index] = line;
     return false;
@@ -181,7 +181,7 @@ class MainParser {
         line = line
           .split(this.basicOperation["InputOutput"][i])
           .join("")
-          .replace(/[)("'`;]/g, "")
+          .replace(/[)("'`;\r]/g, "")
           .split("  ")
           .join("");
 
@@ -211,7 +211,7 @@ class MainParser {
         line = line
           .split(this.basicOperation["ConditionalOperation"][i])
           .join("")
-          .replace(/[() ]/g, "");
+          .replace(/[() \r]/g, "");
 
         this.subSystems[this.subSystemIndex]["ConditionalOperation"][index] = {
           Value: line,
@@ -242,7 +242,7 @@ class MainParser {
         line = line
           .split(this.basicOperation["Loop"][key])
           .join("")
-          .replace(/[()]/g, "")
+          .replace(/[()\r]/g, "")
           .split("  ")
           .join("");
 
