@@ -19,23 +19,21 @@ function setJSON(dict){
 
 	let zopfli = require('node-zopfli');
 
-	function enterAssign(dict){
+	function enterAssign(dict) {
 		let text1 = "";
-		for(let i in dict.Code.Assign){
-			console.log(i);
-			text1 += "" + dict.Code.Assign[i][0].toString() + " = " + dict.Code.Assign[i][1].toString() + "";
+		for (let i in dict.Code.Assign) {
+			text1 += '"' + dict.Code.Assign[i][0].toString() + " = " + dict.Code.Assign[i][1].toString() + '"';
 		}
-		return text1;
+		return text1 + "\n" + text1;
 	}
+	console.log(dict.Code.Assign);
 
-	enterAssign(dict);
-	var text =
-	`
-	`
-	console.log("@startuml\n (*) -->" + enterAssign(dict) + " --> (*)\n@enduml")
+
+
+    var text;
 	module.exports = text => {
 		// text =  unescape(encodeURIComponent(text))
-		let input = new Buffer(unescape(encodeURIComponent(text + `(*) -->` + enterAssign(dict) + `--> (*)\n@enduml`)) ,"utf8")
+		let input = new Buffer(unescape(encodeURIComponent("@startuml\n (*) --> " + enterAssign(dict) + " --> (*)\n@enduml")) ,"utf8")
 		let res = zopfli.deflateSync(input, {blocksplitting: false})
 		return encode64_(res)
 	}
@@ -46,6 +44,7 @@ function setJSON(dict){
 	let defl
 
 	var deflated = zopfli.deflateSync(input, {blocksplitting: false});
+	console.log("http://www.plantuml.com/plantuml/png/"+encode64_(deflated))
 	return "http://www.plantuml.com/plantuml/png/"+encode64_(deflated)
 }
 
