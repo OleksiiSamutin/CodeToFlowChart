@@ -93,8 +93,7 @@ function setJSON(dict) {
     lastIndex = lastIndex > store ? lastIndex : store;
 
     let temp = ifFlag;
-
-    ifFlag = 0; // Set to 0 for another subSystem
+    ifFlag = 0;
     store = conditionalOperation(json.SubSystem);
     lastIndex = lastIndex > store ? lastIndex : store;
     ifFlag = temp;
@@ -110,7 +109,7 @@ function setJSON(dict) {
       if (json.ConditionalOperation[i].Value != "") {
         if (ifFlag == 1) {
           // Check "if cycle" is closed, No then Close cycle
-          arr[arr.length - 1] += "\nendif";
+          arr[lastIndex] += "\nendif";
           ifFlag = 0;
         }
 
@@ -152,7 +151,7 @@ function setJSON(dict) {
 
       lastIndex = saveLastPosition(lastIndex, json.Loop[i]);
 
-      arr[lastIndex] += "\nendwhile (end loop)";
+      arr[lastIndex] += "\nendwhile (end loop1)";
     }
     return lastIndex;
   }
