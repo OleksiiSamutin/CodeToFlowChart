@@ -1,5 +1,4 @@
 function setJSON(dict) {
-
   let encode6bit = (e) => {
     return e < 10
       ? String.fromCharCode(48 + e)
@@ -44,6 +43,7 @@ function setJSON(dict) {
   let arr = [];
 
   function enterAssign(json) {
+    let lastIndex = -1;
     for (let i in json.Assign) {
       arr[i] =
         ":" +
@@ -51,10 +51,13 @@ function setJSON(dict) {
         " = " +
         json.Assign[i][1].toString() +
         "]";
+      lastIndex = i;
     }
+    return lastIndex;
   }
 
   function enterSet(json) {
+    let lastIndex = -1;
     for (let i in json.Set) {
       arr[i] =
         ":" +
@@ -62,18 +65,47 @@ function setJSON(dict) {
         " = " +
         json.Set[i][1].toString() +
         "]";
+      lastIndex = i;
     }
+    return lastIndex;
   }
 
   function inputOutput(json) {
+    let lastIndex = -1;
     for (let i in json.InputOutput) {
       arr[i] = ":" + json.InputOutput[i] + "/";
+      lastIndex = i;
     }
+    return lastIndex;
   }
 
   let ifFlag = 0;
 
+  function saveLastPosition(lastIndex, json) {
+    let store;
+    store = enterAssign(json.SubSystem);
+    lastIndex = lastIndex > store ? lastIndex : store;
+
+    store = enterSet(json.SubSystem);
+    lastIndex = lastIndex > store ? lastIndex : store;
+
+    store = inputOutput(json.SubSystem);
+    lastIndex = lastIndex > store ? lastIndex : store;
+
+    let temp = ifFlag;
+
+    ifFlag = 0; // Set to 0 for another subSystem
+    store = conditionalOperation(json.SubSystem);
+    lastIndex = lastIndex > store ? lastIndex : store;
+    ifFlag = temp;
+
+    store = enterLoop(json.SubSystem);
+    lastIndex = lastIndex > store ? lastIndex : store;
+    return lastIndex;
+  }
+
   function conditionalOperation(json) {
+    let lastIndex = -1;
     for (let i in json.ConditionalOperation) {
       if (json.ConditionalOperation[i].Value != "") {
         if (ifFlag == 1) {
@@ -82,69 +114,55 @@ function setJSON(dict) {
           ifFlag = 0;
         }
 
-        arr[i] = "if (" + json.ConditionalOperation[i].Value + "?) then (yes)\n";
+        arr[i] =
+          "if (" + json.ConditionalOperation[i].Value + "?) then (yes)\n";
 
         ifFlag = 1; // set Flag to 1 after each if cycle
+        lastIndex = -1;
       } else {
         ifFlag = 0;
         arr[i] = "else (no)\n";
+        lastIndex = -1;
       }
 
-      enterAssign(json.ConditionalOperation[i].SubSystem);
-      enterSet(json.ConditionalOperation[i].SubSystem);
-      inputOutput(json.ConditionalOperation[i].SubSystem);
+      lastIndex = saveLastPosition(lastIndex, json.ConditionalOperation[i]);
 
-      let temp = ifFlag;
-      ifFlag = 0; // Set to 0 for another subSystem
-      conditionalOperation(json.ConditionalOperation[i].SubSystem);
-      enterLoop(json.ConditionalOperation[i].SubSystem);
-      ifFlag = temp;
-
-      if (ifFlag == 0)
+      if (ifFlag == 0) {
         // Check "if cycle" is closed, No then Close cycle
-        arr[arr.length - 1] += "\nendif";
+        arr[lastIndex] += "\nendif";
+      }
     }
+
+    console.log(ifFlag);
 
     if (ifFlag == 1) {
       // Check "if cycle" is closed, No then Close cycle
-      arr[arr.length - 1] += "\nendif";
+      arr[lastIndex] += "\nendif";
       ifFlag = 0;
     }
+    return lastIndex;
   }
 
-
-
-  function enterLoop(json){
-    console.log("0." + arr.length.toString())
+  function enterLoop(json) {
+    let lastIndex = -1;
+    console.log("0." + arr.length.toString());
     for (let i in json.Loop) {
+      lastIndex = -1;
+      arr[i] = "while(" + json.Loop[i].Value + ") is (loop)";
 
-       arr[i] = "while(" + json.Loop[i].Value + ") is (loop)";
+      lastIndex = saveLastPosition(lastIndex, json.Loop[i]);
 
-
-       console.log("1." + arr.length.toString())
-       enterAssign(json.Loop[i].SubSystem);
-       enterSet(json.Loop[i].SubSystem);
-       inputOutput(json.Loop[i].SubSystem);
-       console.log("2." +arr.length.toString())
-
-       conditionalOperation(json.Loop[i].SubSystem);
-
-
-       enterLoop(json.Loop[i].SubSystem);
-
-
-       arr[arr.length - 1] += "\nendwhile (end loop1)";
-
-     }
-
+      arr[lastIndex] += "\nendwhile (end loop)";
     }
+    return lastIndex;
+  }
 
-  enterLoop(dict.Code.SubSystem);
-  conditionalOperation(dict.Code.SubSystem);
   enterAssign(dict.Code);
   enterAssign(dict.Code.SubSystem);
   enterSet(dict.Code.SubSystem);
   inputOutput(dict.Code.SubSystem);
+  conditionalOperation(dict.Code.SubSystem);
+  enterLoop(dict.Code.SubSystem);
   console.log(arr.join("\n"));
 
   var text = unescape(
@@ -152,7 +170,14 @@ function setJSON(dict) {
   );
   module.exports = (text) => {
     // text =  unescape(encodeURIComponent(text))
-    let input = new Buffer(unescape(encodeURIComponent("@startuml\n (*) --> " + enterAssign(dict) + " --> (*)\n@enduml")),"utf8");
+    let input = new Buffer(
+      unescape(
+        encodeURIComponent(
+          "@startuml\n (*) --> " + enterAssign(dict) + " --> (*)\n@enduml"
+        )
+      ),
+      "utf8"
+    );
     let res = zopfli.deflateSync(input, { blocksplitting: false });
     return encode64_(res);
   };
@@ -164,6 +189,5 @@ function setJSON(dict) {
   console.log("http://www.plantuml.com/plantuml/png/" + encode64_(deflated));
   return "http://www.plantuml.com/plantuml/png/" + encode64_(deflated);
 }
-
 
 module.exports.setJSON = setJSON;
