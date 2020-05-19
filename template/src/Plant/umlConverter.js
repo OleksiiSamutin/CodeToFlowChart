@@ -151,7 +151,7 @@ function setJSON(dict) {
 
       lastIndex = saveLastPosition(lastIndex, json.Loop[i]);
 
-      arr[lastIndex] += "\nendwhile (end loop1)";
+      arr[lastIndex] += "\nendwhile (end loop)";
     }
     return lastIndex;
   }

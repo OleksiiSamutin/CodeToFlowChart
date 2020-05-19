@@ -13,6 +13,11 @@ int main()
 
     printf("b = %f\n", b);
 
+    for (int i = 0; i < 5; i++)
+    {
+        a = 11;
+    }
+
     if (a == 0)
     {
         printf("It's Work!");
