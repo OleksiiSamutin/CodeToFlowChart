@@ -54,15 +54,15 @@ document.forms.publish.onsubmit = function () {
 
 // incoming message handler
 socket.onmessage = function (event) {
-  console.log(event.data);
-
   if (event.data == "GetFile") {
     var outgoingMessage = file;
     socket.send(outgoingMessage);
     console.log(event.data);
   } else {
     var incomingMessage = event.data;
-    showMessage(incomingMessage);
+    console.log(incomingMessage);
+
+    // showMessage(incomingMessage);
   }
 };
 
@@ -70,6 +70,5 @@ socket.onmessage = function (event) {
 function showMessage(message) {
   // var messageElem = document.createElement("div");
   // messageElem.appendChild(document.createTextNode(message));
-  document.getElementById("subscribe").src= message;
+  document.getElementById("subscribe").src = message;
 }
-
