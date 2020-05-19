@@ -132,8 +132,6 @@ function setJSON(dict) {
       }
     }
 
-    console.log(ifFlag);
-
     if (ifFlag == 1) {
       // Check "if cycle" is closed, No then Close cycle
       arr[lastIndex] += "\nendif";
@@ -144,7 +142,6 @@ function setJSON(dict) {
 
   function enterLoop(json) {
     let lastIndex = -1;
-    console.log("0." + arr.length.toString());
     for (let i in json.Loop) {
       lastIndex = -1;
       arr[i] = "while(" + json.Loop[i].Value + ") is (loop)";
