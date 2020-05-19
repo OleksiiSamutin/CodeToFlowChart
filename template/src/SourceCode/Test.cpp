@@ -5,21 +5,10 @@ int a = 10;
 
 int main()
 {
-    double c = 1.256;
 
     double b = c + a;
 
-    a = 0;
-
     printf("b = %f\n", b);
-
-    for (int i = 0; i < 10; i++) {
-        printf("Hello world!");
-    }
-
-    while(a < 1510) {
-        a = 0;
-    }
 
     if (a == 0)
     {
@@ -28,22 +17,38 @@ int main()
         {
             printf("This is not good!!");
         }
+    }
+
+
+    if (a == 0)
+    {
+        printf("It's Work!");
+        for(int i=0; i<5; i++){
+            a = 11;
+            if(i == 3){
+                a = a + i;
+        }
+    }
     }
     else
     {
         printf("It's not Working!!!");
     }
 
-    if (a == 0)
-    {
-        printf("It's Work!");
-        if (b == 0)
-        {
-            printf("This is not good!!");
+
+    for(int i=0; i<5; i++){
+        a = 11;
+        if(i == 3){
+            a = a + i;
         }
     }
 
-    a = 5;
+    while (a<5){
+       printf(c);
+        a -= 1;
+    }
+
+    c = 5;
 
     return 0;
 }
