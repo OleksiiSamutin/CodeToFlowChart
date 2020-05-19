@@ -1,5 +1,5 @@
 function setJSON(dict){
-	console.log("JSON is set", dict, dict.Code);
+	console.log("JSON is set", dict.Code);
 	console.log(dict.Name);
 
 	let encode6bit = e => {
@@ -19,19 +19,23 @@ function setJSON(dict){
 
 	let zopfli = require('node-zopfli');
 
+	function enterAssign(dict){
+		let text1 = "";
+		for(let i in dict.Code.Assign){
+			console.log(i);
+			text1 += "" + dict.Code.Assign[i][0].toString() + " = " + dict.Code.Assign[i][1].toString() + "";
+		}
+		return text1;
+	}
 
+	enterAssign(dict);
 	var text =
 	`
-	@startuml
-	bob -> helen : hello
-	helen -> bob
-	@enduml
 	`
-
-
+	console.log("@startuml\n (*) -->" + enterAssign(dict) + " --> (*)\n@enduml")
 	module.exports = text => {
 		// text =  unescape(encodeURIComponent(text))
-		let input = new Buffer(unescape(encodeURIComponent(text)),"utf8")
+		let input = new Buffer(unescape(encodeURIComponent(text + `(*) -->` + enterAssign(dict) + `--> (*)\n@enduml`)) ,"utf8")
 		let res = zopfli.deflateSync(input, {blocksplitting: false})
 		return encode64_(res)
 	}
