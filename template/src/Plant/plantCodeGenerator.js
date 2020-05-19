@@ -1,4 +1,5 @@
-const ParserC = module.require("./Parsers/ParserC.js");
+//const JSON_code = require("../Parsers/MainParser.js")
+const ParserC = module.require("../Parsers/ParserC.js");
 function setSourceCode(path) {
   // This operation below read code from Testing File and split it line by line, it's needed
 
@@ -21,6 +22,7 @@ function setSourceCode(path) {
 
       parser.print();      
       parser.parseToJSON(text);
+      
       break;
     }
     case "py": {
@@ -32,4 +34,4 @@ function setSourceCode(path) {
   }
 }
 
-setSourceCode("SourceCode/Test.cpp");
+setSourceCode("./SourceCode/Test.cpp");
