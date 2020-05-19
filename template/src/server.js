@@ -1,4 +1,5 @@
 const Main = require("./Main");
+const plantURL = require("./Plant/umlConverter.js");
 var http = require("http");
 var Static = require("node-static");
 var WebSocketServer = new require("ws");
@@ -21,6 +22,7 @@ const fileExtensions = ["c", "cpp", "py", "java"];
  */
 
 // WebSocket-server port 8081
+
 var webSocketServer = new WebSocketServer.Server({ port: 8081 });
 webSocketServer.on("connection", function (ws) {
   client = ws;
@@ -34,7 +36,7 @@ webSocketServer.on("connection", function (ws) {
       console.log(text);
       client.send("GetFile");
     } else {
-      client.send(JSON.stringify(Main.setSourceCode(fileType, text)));
+      client.send(plantURL.setJSON(Main.setSourceCode("cpp", text)));
     }
     // else console.log("Nop");
   });

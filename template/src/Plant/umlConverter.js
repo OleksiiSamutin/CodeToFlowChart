@@ -19,18 +19,19 @@ function setJSON(dict){
 
 	let zopfli = require('node-zopfli');
 
-	var text =  unescape(encodeURIComponent(
+
+	var text =
 	`
 	@startuml
 	bob -> helen : hello
 	helen -> bob
 	@enduml
 	`
-	))
+
 
 	module.exports = text => {
 		// text =  unescape(encodeURIComponent(text))
-		let input = new Buffer(text,"utf8")
+		let input = new Buffer(unescape(encodeURIComponent(text)),"utf8")
 		let res = zopfli.deflateSync(input, {blocksplitting: false})
 		return encode64_(res)
 	}
@@ -38,11 +39,10 @@ function setJSON(dict){
 
 	var input = new Buffer(text)
 	console.log(input.toString())
-	zopfli.deflate(input, {blocksplitting: false},function(err, deflated) {
-		console.log("http://www.plantuml.com/plantuml/png/"+encode64_(deflated));
-	});
-	return "OK OK"
-}
+	let defl
 
+	var deflated = zopfli.deflateSync(input, {blocksplitting: false});
+	return "http://www.plantuml.com/plantuml/png/"+encode64_(deflated)
+}
 
 module.exports.setJSON = setJSON;
